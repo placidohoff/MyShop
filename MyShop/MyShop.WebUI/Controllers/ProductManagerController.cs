@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Models;
+using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
@@ -12,10 +13,14 @@ namespace MyShop.WebUI.Controllers
     {
         ProductRepository context;
 
+        //User will select category from a dropdown which we will give via database:
+        ProductCategoryRepository productCategories;
+
         //Our constructor will initialize our reference to the InMemoryRepository 
         public ProductManagerController()
         {
             context = new ProductRepository();
+            productCategories = new ProductCategoryRepository();
         }
 
         // GET: ProductManager
@@ -25,11 +30,16 @@ namespace MyShop.WebUI.Controllers
             return View(products);
         }
 
-        //Allows user to fill in the date they want:
+        //Allows user to fill in the data they want:
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            //When user creates a product, they can only choose from our predetermined categories.
+            //This is achieved via ViewModel ?:
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+
+            viewModel.Product = new Product();
+            viewModel.ProductCategories = productCategories.Collection();
+            return View(viewModel);
         }
 
         //Post data to database
@@ -52,6 +62,7 @@ namespace MyShop.WebUI.Controllers
         //User will enter the Id to pull up the info of the product they want to edit:
         public ActionResult Edit(string Id)
         {
+
             Product product = context.Find(Id);
             if(product == null)
             {
@@ -59,7 +70,12 @@ namespace MyShop.WebUI.Controllers
             }
             else
             {
-                return View(product);
+                //When editing, must still choose from our predetermined categories via DB via ViewModel:
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = product;
+                viewModel.ProductCategories = productCategories.Collection();
+
+                return View(viewModel);
             }
         }
 
