@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-    public class Product
+    //Our generic InMemoryRepository class expects a BaseEntity so this class must inherit from that if we are to make instances of these as InMemoryRepository:
+
+    public class Product : BaseEntity
     {
-        public string Id { get; set; }
+        //BaseEntity already has public string Id so this would cause issues to override it.
+        //public string Id { get; set; }
 
         [StringLength(20)]
         [DisplayName("Product Name")]
@@ -25,9 +28,10 @@ namespace MyShop.Core.Models
 
         public string Image { get; set; }
 
-        public Product()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        //No constructor neccessary since the BaseEntity has a constructor already:
+        //public Product()
+        //{
+        //    this.Id = Guid.NewGuid().ToString();
+        //}
     }
 }

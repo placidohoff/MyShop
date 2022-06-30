@@ -8,17 +8,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShop.Core.Models
 {
-    public class ProductCategory
+    //Must inherit from BaseEntity if we are to use it to make instances from InMemoryRepository class which expects a BaseEntity to be passed to it.
+    public class ProductCategory : BaseEntity
     {
-        public string Id { get; set; }
+        //Base entity already has a public string Id, we will not override it.
+        //public string Id { get; set; }
 
         
         [DisplayName("Category Name")]
         public string Category { get; set; }
 
-        public ProductCategory()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        //Constructor not neccessary as BaseEntity already does it.
+        //public ProductCategory()
+        //{
+        //    this.Id = Guid.NewGuid().ToString();
+        //}
     }
 }

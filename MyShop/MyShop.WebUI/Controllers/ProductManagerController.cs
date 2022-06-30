@@ -11,16 +11,19 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        ProductRepository context;
+        //We will use our generic repository classes to make instances of repositories holding values we pass in:
+
+        InMemoryRepository<Product> context;
 
         //User will select category from a dropdown which we will give via database:
-        ProductCategoryRepository productCategories;
+
+        InMemoryRepository<ProductCategory> productCategories;
 
         //Our constructor will initialize our reference to the InMemoryRepository 
         public ProductManagerController()
         {
-            context = new ProductRepository();
-            productCategories = new ProductCategoryRepository();
+            context = new InMemoryRepository<Product>();
+            productCategories = new InMemoryRepository<ProductCategory>();
         }
 
         // GET: ProductManager
