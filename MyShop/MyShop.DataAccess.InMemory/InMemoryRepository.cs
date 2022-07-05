@@ -1,17 +1,19 @@
-﻿using System;
+﻿using MyShop.Core.Contracts;
+using MyShop.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyShop.Core.Models
+namespace MyShop.DataAccess.InMemory
 {
     //Has a generic placeholder: <T>
     //We need a base class referenced that has an Id property so our generic class understands what '.Id' is.
         //BaseEntity fixes this:
 
-    public class InMemoryRepository<T> where T: BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T: BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.Core.ViewModels;
-//using MyShop.DataAccess.InMemory;
+using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
 {
@@ -13,17 +14,23 @@ namespace MyShop.WebUI.Controllers
     {
         //We will use our generic repository classes to make instances of repositories holding values we pass in:
 
-        InMemoryRepository<Product> context;
+        IRepository<Product> context;
 
         //User will select category from a dropdown which we will give via database:
 
-        InMemoryRepository<ProductCategory> productCategories;
+        IRepository<ProductCategory> productCategories;
 
         //Our constructor will initialize our reference to the InMemoryRepository 
-        public ProductManagerController()
+        //We will ensure this reference via DependencyInjection via constructor:
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoryContext)
         {
-            context = new InMemoryRepository<Product>();
-            productCategories = new InMemoryRepository<ProductCategory>();
+            //We use dependency injection instead to pass these values in rather than create them here:
+            //context = new InMemoryRepository<Product>();
+            //productCategories = new InMemoryRepository<ProductCategory>();
+
+            //We use dependency injection instead to pass these values in rather than create them here:
+            context = productContext;
+            productCategories = productCategoryContext;
         }
 
         // GET: ProductManager
